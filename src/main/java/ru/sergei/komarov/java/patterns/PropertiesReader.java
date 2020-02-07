@@ -8,25 +8,26 @@ public class PropertiesReader {
 
     private static final String CONFIG_FILE_NAME = "config.properties";
 
+    private static Properties properties;
+
     public static Properties getProperties() {
-        Properties properties = new Properties();
-
-        try(FileInputStream in = new FileInputStream(getPropertiesFilePath())) {
-            properties.load(in);
-            return properties;
-        } catch (IOException e) {
-            System.out.println("Input/Output exception.");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.out.println("Another exception.");
-            e.printStackTrace();
+        if(properties == null) {
+            try(FileInputStream in = new FileInputStream(getPropertiesFilePath())) {
+                properties = new Properties();
+                properties.load(in);
+            } catch (IOException e) {
+                System.out.println("Input/Output exception.");
+                e.printStackTrace();
+            } catch (Exception e) {
+                System.out.println("Another exception.");
+                e.printStackTrace();
+            }
         }
-
-        return null;
+        return properties;
     }
 
     private static String getPropertiesFilePath() {
-        return "src/main/resources/" + CONFIG_FILE_NAME;
+        return CommonConstants.RESOURCES_PATH + CONFIG_FILE_NAME;
     }
 
 }
