@@ -20,6 +20,7 @@ public class Car implements Transport {
 
     /**
      * Получить марку автомобилей
+     *
      * @return название марки
      */
     public String getBrand() {
@@ -28,6 +29,7 @@ public class Car implements Transport {
 
     /**
      * Изменить марку автомобилей
+     *
      * @param brand новое название марки
      */
     public void setBrand(String brand) {
@@ -41,15 +43,15 @@ public class Car implements Transport {
      * @param newName новое название
      */
     public void setModelName(String oldName, String newName) throws NoSuchModelNameException, DuplicateModelNameException {
-        if(oldName == null) {
+        if (oldName == null) {
             throw new NoSuchModelNameException(null);
         }
 
-        if(newName == null) {
+        if (newName == null) {
             throw new NullPointerException("Name must not be null.");
         }
 
-        if(Objects.equals(oldName, newName)) {
+        if (Objects.equals(oldName, newName)) {
             throw new DuplicateModelNameException(newName);
         }
 
@@ -123,17 +125,17 @@ public class Car implements Transport {
      * @param price цена модели
      */
     public void addModel(String name, double price) {
-        if(name == null) {
+        if (name == null) {
             throw new NullPointerException("Name must not be null.");
         }
 
-        if(Objects.equals(price, Double.NaN) || Double.compare(price, 0) <= 0) {
+        if (Objects.equals(price, Double.NaN) || Double.compare(price, 0) <= 0) {
             throw new ModelPriceOutOfBoundsException(Double.toString(price));
         }
 
         int modelsCount = getModelsCount();
         CarModel newModel = new CarModel(name, price);
-        if(modelsCount < models.length) {
+        if (modelsCount < models.length) {
             models[modelsCount] = newModel;
         } else {
             CarModel[] newModels = Arrays.copyOf(models, modelsCount + 1);
@@ -150,7 +152,7 @@ public class Car implements Transport {
      */
     public void removeModel(String name) throws NoSuchModelNameException {
         int modelsCount = getModelsCount();
-        if(modelsCount == 0) {
+        if (modelsCount == 0) {
             throw new ArrayIndexOutOfBoundsException("size = 0");
         }
 
@@ -159,8 +161,8 @@ public class Car implements Transport {
             throw new NoSuchModelNameException(name);
         }
 
-        if(modelsCount < models.length) {
-            models[index] = null;
+        if (modelsCount < models.length) {
+            System.arraycopy(models, index + 1, models, index, modelsCount - index);
         } else {
             int newSize = modelsCount - 1;
             CarModel[] newModels;
@@ -168,9 +170,8 @@ public class Car implements Transport {
                 newModels = Arrays.copyOf(models, newSize);
             } else {
                 newModels = new CarModel[newSize];
-                int newIndex = index + 1;
                 System.arraycopy(models, 0, newModels, 0, index);
-                System.arraycopy(models, newIndex, newModels, newIndex, modelsCount - newIndex);
+                System.arraycopy(models, index + 1, newModels, index, newSize - index);
             }
             models = newModels;
         }

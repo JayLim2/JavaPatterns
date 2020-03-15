@@ -14,18 +14,29 @@ public class Main {
         //testProperties();
 
         //Test transport
-        Car car = new Car("Audi", 5);
-        car.addModel("test1", 100);
+        Car car = new Car("Audi", 3);
+        car.addModel("model1", 100);
         car.addModel("model2", 350);
+        car.addModel("model3", 350);
         TransportUtils.printModelsNames(car);
         TransportUtils.printModelsPrices(car);
+//        try {
+//            car.removeModel("testNoSuchName");
+//        } catch (NoSuchModelNameException e) {
+//            e.printStackTrace();
+//        }
         try {
-            car.removeModel("model3");
+            car.removeModel("model2");
         } catch (NoSuchModelNameException e) {
             e.printStackTrace();
         }
+        TransportUtils.printModelsNames(car);
+        TransportUtils.printModelsPrices(car);
+        car.addModel("model4", 949);
+        TransportUtils.printModelsNames(car);
+        TransportUtils.printModelsPrices(car);
         try {
-            car.removeModel("model2");
+            car.removeModel("model1");
         } catch (NoSuchModelNameException e) {
             e.printStackTrace();
         }
