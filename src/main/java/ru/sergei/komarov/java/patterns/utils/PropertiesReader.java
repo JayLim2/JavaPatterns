@@ -1,4 +1,4 @@
-package ru.sergei.komarov.java.patterns;
+package ru.sergei.komarov.java.patterns.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

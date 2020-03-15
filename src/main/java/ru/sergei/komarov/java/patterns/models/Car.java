@@ -1,12 +1,17 @@
-package ru.sergei.komarov.java.patterns;
+package ru.sergei.komarov.java.patterns.models;
+
+import ru.sergei.komarov.java.patterns.exceptions.DuplicateModelNameException;
+import ru.sergei.komarov.java.patterns.exceptions.ModelPriceOutOfBoundsException;
+import ru.sergei.komarov.java.patterns.exceptions.NoSuchModelNameException;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Car {
+public class Car implements Transport {
 
     private String brand;
     private CarModel[] models;
+    private int size;
 
     public Car(String brand, int modelsCount) {
         this.brand = brand;
@@ -35,13 +40,24 @@ public class Car {
      * @param oldName старое название
      * @param newName новое название
      */
-    public void setModelName(String oldName, String newName) {
-        if (oldName != null && newName != null && !Objects.equals(oldName, newName)) {
-            int index = getIndexByName(oldName);
-            if (index != -1) {
-                models[index].name = newName;
-            }
+    public void setModelName(String oldName, String newName) throws NoSuchModelNameException, DuplicateModelNameException {
+        if(oldName == null) {
+            throw new NoSuchModelNameException(null);
         }
+
+        if(newName == null) {
+            throw new NullPointerException("Name must not be null.");
+        }
+
+        if(Objects.equals(oldName, newName)) {
+            throw new DuplicateModelNameException(newName);
+        }
+
+        int index = getIndexByName(oldName);
+        if (index == -1) {
+            throw new NoSuchModelNameException(oldName);
+        }
+        models[index].name = newName;
     }
 
     /**
@@ -50,15 +66,12 @@ public class Car {
      * @return массив названий моделей
      */
     public String[] getModelsNames() {
-        if (models != null) {
-            int modelsCount = getModelsCount();
-            String[] names = new String[modelsCount];
-            for (int i = 0; i < modelsCount; i++) {
-                names[i] = models[i].name;
-            }
-            return names;
+        int modelsCount = getModelsCount();
+        String[] names = new String[modelsCount];
+        for (int i = 0; i < modelsCount; i++) {
+            names[i] = models[i].name;
         }
-        return null;
+        return names;
     }
 
     /**
@@ -66,16 +79,13 @@ public class Car {
      *
      * @return массив цен моделей
      */
-    public double[] getModelPrices() {
-        if (models != null) {
-            int modelsCount = getModelsCount();
-            double[] prices = new double[models.length];
-            for (int i = 0; i < models.length; i++) {
-                prices[i] = models[i].price;
-            }
-            return prices;
+    public double[] getModelsPrices() {
+        int modelsCount = getModelsCount();
+        double[] prices = new double[modelsCount];
+        for (int i = 0; i < modelsCount; i++) {
+            prices[i] = models[i].price;
         }
-        return null;
+        return prices;
     }
 
     /**
@@ -84,12 +94,12 @@ public class Car {
      * @param name название модели
      * @return цена, если есть модель с таким именем, или NaN, если такой модели нет
      */
-    public double getPriceByName(String name) {
+    public double getPriceByName(String name) throws NoSuchModelNameException {
         int index = getIndexByName(name);
         if (index != -1) {
             return models[index].price;
         }
-        return Double.NaN;
+        throw new NoSuchModelNameException(name);
     }
 
     /**
@@ -98,11 +108,12 @@ public class Car {
      * @param name     название модели
      * @param newPrice новая цена модели
      */
-    public void setPriceByName(String name, double newPrice) {
+    public void setPriceByName(String name, double newPrice) throws NoSuchModelNameException {
         int index = getIndexByName(name);
-        if (index != -1) {
-            models[index].price = newPrice;
+        if (index == -1) {
+            throw new NoSuchModelNameException(name);
         }
+        models[index].price = newPrice;
     }
 
     /**
@@ -112,12 +123,24 @@ public class Car {
      * @param price цена модели
      */
     public void addModel(String name, double price) {
-        if (models != null && name != null && !Objects.equals(price, Double.NaN) && price > 0) {
-            CarModel[] newModels = Arrays.copyOf(models, models.length + 1);
-            CarModel newModel = new CarModel(name, price);
-            newModels[newModels.length - 1] = newModel;
+        if(name == null) {
+            throw new NullPointerException("Name must not be null.");
+        }
+
+        if(Objects.equals(price, Double.NaN) || Double.compare(price, 0) <= 0) {
+            throw new ModelPriceOutOfBoundsException(Double.toString(price));
+        }
+
+        int modelsCount = getModelsCount();
+        CarModel newModel = new CarModel(name, price);
+        if(modelsCount < models.length) {
+            models[modelsCount] = newModel;
+        } else {
+            CarModel[] newModels = Arrays.copyOf(models, modelsCount + 1);
+            newModels[modelsCount] = newModel;
             models = newModels;
         }
+        size++;
     }
 
     /**
@@ -125,10 +148,20 @@ public class Car {
      *
      * @param name название модели
      */
-    public void removeModel(String name) {
+    public void removeModel(String name) throws NoSuchModelNameException {
         int modelsCount = getModelsCount();
+        if(modelsCount == 0) {
+            throw new ArrayIndexOutOfBoundsException("size = 0");
+        }
+
         int index = getIndexByName(name);
-        if (index != -1) {
+        if (index == -1) {
+            throw new NoSuchModelNameException(name);
+        }
+
+        if(modelsCount < models.length) {
+            models[index] = null;
+        } else {
             int newSize = modelsCount - 1;
             CarModel[] newModels;
             if (index == newSize) {
@@ -141,6 +174,7 @@ public class Car {
             }
             models = newModels;
         }
+        size--;
     }
 
     /**
@@ -149,7 +183,7 @@ public class Car {
      * @return количество
      */
     public int getModelsCount() {
-        return models != null ? models.length : -1;
+        return size;
     }
 
     //########################### SERVICE METHODS ######################
@@ -162,7 +196,7 @@ public class Car {
      */
     private int getIndexByName(String name) {
         int index = -1;
-        if (models != null && name != null) {
+        if (name != null) {
             for (int i = 0; i < getModelsCount() && index < 0; i++) {
                 if (equalsModelName(models[i], name)) {
                     index = i;
@@ -187,5 +221,12 @@ public class Car {
             this.price = price;
         }
 
+        @Override
+        public String toString() {
+            return "CarModel{" +
+                    "name='" + name + '\'' +
+                    ", price=" + price +
+                    '}';
+        }
     }
 }
