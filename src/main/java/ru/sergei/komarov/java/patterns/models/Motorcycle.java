@@ -75,7 +75,7 @@ public class Motorcycle implements Transport {
         MotorcycleModel temp = head.next;
         int index = 0;
         while (temp != head) {
-            names[index] = temp.name;
+            names[index++] = temp.name;
             temp = temp.next;
         }
         return names;
@@ -91,7 +91,7 @@ public class Motorcycle implements Transport {
         MotorcycleModel temp = head.next;
         int index = 0;
         while (temp != head) {
-            prices[index] = temp.price;
+            prices[index++] = temp.price;
             temp = temp.next;
         }
         return prices;
@@ -146,9 +146,13 @@ public class Motorcycle implements Transport {
      * @param name  название модели
      * @param price цена модели
      */
-    public void addModel(String name, double price) {
+    public void addModel(String name, double price) throws DuplicateModelNameException {
         if(name == null) {
             throw new NullPointerException("Name must not be null.");
+        }
+
+        if (contains(name)) {
+            throw new DuplicateModelNameException(name);
         }
 
         if(Objects.equals(price, Double.NaN) || Double.compare(price, 0) <= 0) {
@@ -199,23 +203,12 @@ public class Motorcycle implements Transport {
         return size;
     }
 
-    /**
-     * Получение элемента списка по индексу
-     *
-     * @param index индекс в диапазоне [0..size)
-     * @return элемент по индексу
-     */
-    private MotorcycleModel get(int index) {
-        if (size > 0 && index >= 0 && index < size) {
-            int i = 0;
-            MotorcycleModel temp = head.next;
-            while (temp != head && i != index) {
-                i++;
-                temp = temp.next;
-            }
-            return temp;
+    private boolean contains(String name) {
+        MotorcycleModel temp = head.next;
+        while (temp != head && !Objects.equals(temp.name, name)) {
+            temp = temp.next;
         }
-        throw new IndexOutOfBoundsException("No element with index = " + index);
+        return temp != head;
     }
 
     //##################################################################

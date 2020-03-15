@@ -124,9 +124,13 @@ public class Car implements Transport {
      * @param name  название модели
      * @param price цена модели
      */
-    public void addModel(String name, double price) {
+    public void addModel(String name, double price) throws DuplicateModelNameException {
         if (name == null) {
             throw new NullPointerException("Name must not be null.");
+        }
+
+        if (contains(name)) {
+            throw new DuplicateModelNameException(name);
         }
 
         if (Objects.equals(price, Double.NaN) || Double.compare(price, 0) <= 0) {
@@ -205,6 +209,10 @@ public class Car implements Transport {
             }
         }
         return index;
+    }
+
+    private boolean contains(String name) {
+        return getIndexByName(name) != -1;
     }
 
     private boolean equalsModelName(CarModel currentModel, String name) {
