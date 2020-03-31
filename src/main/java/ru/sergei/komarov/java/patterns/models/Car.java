@@ -191,6 +191,23 @@ public class Car implements Transport {
         return size;
     }
 
+    //#################################################################
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Car clonedCar = (Car) super.clone();
+        CarModel[] models = clonedCar.models;
+        CarModel[] newModels = models.clone();
+        clonedCar.models = newModels;
+        int size = models.length;
+        for (int i = 0; i < size && models[i] != null; i++) {
+            CarModel currentModel = models[i];
+            CarModel newModel = new CarModel(currentModel.name, currentModel.price);
+            newModels[i] = newModel;
+        }
+        return clonedCar;
+    }
+
     //########################### SERVICE METHODS ######################
 
     /**

@@ -3,7 +3,7 @@ package ru.sergei.komarov.java.patterns.models;
 import ru.sergei.komarov.java.patterns.exceptions.DuplicateModelNameException;
 import ru.sergei.komarov.java.patterns.exceptions.NoSuchModelNameException;
 
-public interface Transport {
+public interface Transport extends Cloneable {
 
     String getBrand();
 
@@ -24,5 +24,7 @@ public interface Transport {
     void removeModel(String name) throws NoSuchModelNameException;
 
     int getModelsCount();
+
+    Object clone() throws CloneNotSupportedException;
 
 }

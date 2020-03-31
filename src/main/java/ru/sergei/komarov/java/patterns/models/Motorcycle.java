@@ -211,6 +211,30 @@ public class Motorcycle implements Transport {
         return temp != head;
     }
 
+    //#################################################################
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Motorcycle clonedMotorcycle = (Motorcycle) super.clone();
+
+        MotorcycleModel newHead = new MotorcycleModel();
+        newHead.next = newHead;
+        newHead.prev = newHead;
+
+        MotorcycleModel temp = head.next;
+        while (temp != head) {
+            MotorcycleModel newModel = new MotorcycleModel(temp.name, temp.price, null, null);
+            newModel.prev = newHead.prev;
+            newModel.next = newHead;
+            newHead.prev.next = newModel;
+            newHead.prev = newModel;
+            temp = temp.next;
+        }
+        clonedMotorcycle.head = newHead;
+
+        return clonedMotorcycle;
+    }
+
     //##################################################################
 
     private static class MotorcycleModel {

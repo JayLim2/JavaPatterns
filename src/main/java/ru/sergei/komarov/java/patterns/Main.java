@@ -25,18 +25,41 @@ public class Main {
         AutoFactory autoFactory = new AutoFactory();
         MotoFactory motoFactory = new MotoFactory();
 
-        Transport transport = TransportUtils.createInstance("Brand A", 5);
-        transport.addModel("car1", 100);
-        transport.addModel("car2", 200);
-        transport.addModel("car3", 300);
-        TransportUtils.printModelsNames(transport);
+        Transport transport, clonedTransport;
 
+        //######### TEST MOTO CLONING ##########
+        System.out.println("######## MOTO #############");
         TransportUtils.setFactory(motoFactory);
         transport = TransportUtils.createInstance("MotoBrand A", 3);
         transport.addModel("moto1", 100);
         transport.addModel("moto2", 200);
         transport.addModel("moto3", 300);
-        TransportUtils.printModelsNames(transport);
+
+        clonedTransport = (Transport) transport.clone();
+        clonedTransport.setPriceByName("moto2", 9999);
+
+        System.out.println("== Original transport prices: ==");
+        TransportUtils.printModelsPrices(transport);
+        System.out.println("== Cloned transport prices: ==");
+        TransportUtils.printModelsPrices(clonedTransport);
+
+        System.out.println();
+
+        //######### TEST CARS CLONING ##########
+        System.out.println("######## CARS #############");
+        TransportUtils.setFactory(autoFactory);
+        transport = TransportUtils.createInstance("CarBrand A", 5);
+        transport.addModel("car1", 100);
+        transport.addModel("car2", 200);
+        transport.addModel("car3", 300);
+
+        clonedTransport = (Transport) transport.clone();
+        clonedTransport.setPriceByName("car3", 7777);
+
+        System.out.println("== Original transport prices: ==");
+        TransportUtils.printModelsPrices(transport);
+        System.out.println("== Cloned transport prices: ==");
+        TransportUtils.printModelsPrices(clonedTransport);
     }
 
     private static void testCars() throws Exception {
@@ -105,7 +128,7 @@ public class Main {
         Properties properties1 = PropertiesReader.getProperties();
         Properties properties2 = PropertiesReader.getProperties();
 
-        if(properties1 != null) {
+        if (properties1 != null) {
             String testProperty = properties1.getProperty("test.property");
             System.out.println("Test property: " + testProperty);
 
