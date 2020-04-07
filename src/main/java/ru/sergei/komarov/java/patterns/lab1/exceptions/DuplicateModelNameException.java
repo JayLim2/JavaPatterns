@@ -1,4 +1,4 @@
-package ru.sergei.komarov.java.patterns.exceptions;
+package ru.sergei.komarov.java.patterns.lab1.exceptions;
 
 public class DuplicateModelNameException extends Exception {
 

@@ -1,7 +1,7 @@
-package ru.sergei.komarov.java.patterns.factories;
+package ru.sergei.komarov.java.patterns.lab1.factories;
 
-import ru.sergei.komarov.java.patterns.models.Car;
-import ru.sergei.komarov.java.patterns.models.Transport;
+import ru.sergei.komarov.java.patterns.lab1.models.Car;
+import ru.sergei.komarov.java.patterns.lab1.models.Transport;
 
 public class AutoFactory implements TransportFactory {
 

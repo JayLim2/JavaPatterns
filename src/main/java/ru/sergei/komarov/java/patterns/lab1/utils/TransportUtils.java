@@ -1,8 +1,8 @@
-package ru.sergei.komarov.java.patterns.utils;
+package ru.sergei.komarov.java.patterns.lab1.utils;
 
-import ru.sergei.komarov.java.patterns.factories.AutoFactory;
-import ru.sergei.komarov.java.patterns.factories.TransportFactory;
-import ru.sergei.komarov.java.patterns.models.Transport;
+import ru.sergei.komarov.java.patterns.lab1.factories.AutoFactory;
+import ru.sergei.komarov.java.patterns.lab1.factories.TransportFactory;
+import ru.sergei.komarov.java.patterns.lab1.models.Transport;
 
 public class TransportUtils {
 

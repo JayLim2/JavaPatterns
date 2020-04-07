@@ -1,13 +1,13 @@
-package ru.sergei.komarov.java.patterns;
+package ru.sergei.komarov.java.patterns.lab1;
 
-import ru.sergei.komarov.java.patterns.exceptions.NoSuchModelNameException;
-import ru.sergei.komarov.java.patterns.factories.AutoFactory;
-import ru.sergei.komarov.java.patterns.factories.MotoFactory;
-import ru.sergei.komarov.java.patterns.models.Car;
-import ru.sergei.komarov.java.patterns.models.Motorcycle;
-import ru.sergei.komarov.java.patterns.models.Transport;
-import ru.sergei.komarov.java.patterns.utils.PropertiesReader;
-import ru.sergei.komarov.java.patterns.utils.TransportUtils;
+import ru.sergei.komarov.java.patterns.lab1.exceptions.NoSuchModelNameException;
+import ru.sergei.komarov.java.patterns.lab1.factories.AutoFactory;
+import ru.sergei.komarov.java.patterns.lab1.factories.MotoFactory;
+import ru.sergei.komarov.java.patterns.lab1.models.Car;
+import ru.sergei.komarov.java.patterns.lab1.models.Motorcycle;
+import ru.sergei.komarov.java.patterns.lab1.models.Transport;
+import ru.sergei.komarov.java.patterns.lab1.utils.PropertiesReader;
+import ru.sergei.komarov.java.patterns.lab1.utils.TransportUtils;
 
 import java.util.Properties;
 
@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         //Test properties
-        //testProperties();
+        testProperties();
 
         //Test cars and motors
         //testCars();
@@ -35,6 +35,8 @@ public class Main {
         transport.addModel("moto2", 200);
         transport.addModel("moto3", 300);
 
+        System.out.println(transport.getClass().getCanonicalName());
+
         clonedTransport = (Transport) transport.clone();
         clonedTransport.setPriceByName("moto2", 9999);
 
@@ -52,6 +54,8 @@ public class Main {
         transport.addModel("car1", 100);
         transport.addModel("car2", 200);
         transport.addModel("car3", 300);
+
+        System.out.println(transport.getClass().getCanonicalName());
 
         clonedTransport = (Transport) transport.clone();
         clonedTransport.setPriceByName("car3", 7777);
@@ -132,8 +136,13 @@ public class Main {
             String testProperty = properties1.getProperty("test.property");
             System.out.println("Test property: " + testProperty);
 
+            String secondProperty = properties1.getProperty("second.property");
+            System.out.println("Second property: " + secondProperty);
+
             boolean isSameObject = properties1 == properties2;
             System.out.println("Is same object: " + isSameObject);
+
+            System.out.println();
         }
     }
 }

@@ -1,7 +1,7 @@
-package ru.sergei.komarov.java.patterns.models;
+package ru.sergei.komarov.java.patterns.lab1.models;
 
-import ru.sergei.komarov.java.patterns.exceptions.DuplicateModelNameException;
-import ru.sergei.komarov.java.patterns.exceptions.NoSuchModelNameException;
+import ru.sergei.komarov.java.patterns.lab1.exceptions.DuplicateModelNameException;
+import ru.sergei.komarov.java.patterns.lab1.exceptions.NoSuchModelNameException;
 
 public interface Transport extends Cloneable {
 

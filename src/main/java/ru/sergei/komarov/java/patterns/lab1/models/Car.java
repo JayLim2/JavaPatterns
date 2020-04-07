@@ -1,8 +1,8 @@
-package ru.sergei.komarov.java.patterns.models;
+package ru.sergei.komarov.java.patterns.lab1.models;
 
-import ru.sergei.komarov.java.patterns.exceptions.DuplicateModelNameException;
-import ru.sergei.komarov.java.patterns.exceptions.ModelPriceOutOfBoundsException;
-import ru.sergei.komarov.java.patterns.exceptions.NoSuchModelNameException;
+import ru.sergei.komarov.java.patterns.lab1.exceptions.DuplicateModelNameException;
+import ru.sergei.komarov.java.patterns.lab1.exceptions.ModelPriceOutOfBoundsException;
+import ru.sergei.komarov.java.patterns.lab1.exceptions.NoSuchModelNameException;
 
 import java.util.Arrays;
 import java.util.Objects;
