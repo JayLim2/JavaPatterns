@@ -11,11 +11,18 @@ public class Car implements Transport {
 
     private String brand;
     private CarModel[] models;
-    private int size;
 
     public Car(String brand, int modelsCount) {
         this.brand = brand;
+
+        //initialize array
+        if (modelsCount < 0) {
+            modelsCount = 0;
+        }
         models = new CarModel[modelsCount];
+        for (int i = 0; i < modelsCount; i++) {
+            models[i] = new CarModel("car" + i, 100 * (i + 1));
+        }
     }
 
     /**
@@ -51,7 +58,7 @@ public class Car implements Transport {
             throw new NullPointerException("Name must not be null.");
         }
 
-        if (Objects.equals(oldName, newName)) {
+        if (Objects.equals(oldName, newName) || contains(newName)) {
             throw new DuplicateModelNameException(newName);
         }
 
@@ -111,11 +118,16 @@ public class Car implements Transport {
      * @param newPrice новая цена модели
      */
     public void setPriceByName(String name, double newPrice) throws NoSuchModelNameException {
-        int index = getIndexByName(name);
-        if (index == -1) {
-            throw new NoSuchModelNameException(name);
+        if (!isInvalidPrice(newPrice)) {
+            int index = getIndexByName(name);
+            if (index == -1) {
+                throw new NoSuchModelNameException(name);
+            }
+
+            models[index].price = newPrice;
+        } else {
+            throw new ModelPriceOutOfBoundsException(Double.toString(newPrice));
         }
-        models[index].price = newPrice;
     }
 
     /**
@@ -133,20 +145,23 @@ public class Car implements Transport {
             throw new DuplicateModelNameException(name);
         }
 
-        if (Objects.equals(price, Double.NaN) || Double.compare(price, 0) <= 0) {
+        if (isInvalidPrice(price)) {
             throw new ModelPriceOutOfBoundsException(Double.toString(price));
         }
 
+        //TODO optimize
+//        int modelsCount = getModelsCount();
+//        CarModel newModel = new CarModel(name, price);
+//        if (modelsCount < models.length) {
+//            models[modelsCount] = newModel;
+//        } else {
+//            CarModel[] newModels = Arrays.copyOf(models, modelsCount + 1);
+//            newModels[modelsCount] = newModel;
+//            models = newModels;
+//        }
         int modelsCount = getModelsCount();
-        CarModel newModel = new CarModel(name, price);
-        if (modelsCount < models.length) {
-            models[modelsCount] = newModel;
-        } else {
-            CarModel[] newModels = Arrays.copyOf(models, modelsCount + 1);
-            newModels[modelsCount] = newModel;
-            models = newModels;
-        }
-        size++;
+        models = Arrays.copyOf(models, modelsCount + 1);
+        models[modelsCount] = new CarModel(name, price);
     }
 
     /**
@@ -165,21 +180,23 @@ public class Car implements Transport {
             throw new NoSuchModelNameException(name);
         }
 
-        if (modelsCount < models.length) {
-            System.arraycopy(models, index + 1, models, index, modelsCount - index);
-        } else {
-            int newSize = modelsCount - 1;
-            CarModel[] newModels;
-            if (index == newSize) {
-                newModels = Arrays.copyOf(models, newSize);
-            } else {
-                newModels = new CarModel[newSize];
-                System.arraycopy(models, 0, newModels, 0, index);
-                System.arraycopy(models, index + 1, newModels, index, newSize - index);
-            }
-            models = newModels;
-        }
-        size--;
+        //TODO optimize
+//        if (modelsCount < models.length) {
+//            System.arraycopy(models, index + 1, models, index, modelsCount - index);
+//        } else {
+//            int newSize = modelsCount - 1;
+//            CarModel[] newModels;
+//            if (index == newSize) {
+//                newModels = Arrays.copyOf(models, newSize);
+//            } else {
+//                newModels = new CarModel[newSize];
+//                System.arraycopy(models, 0, newModels, 0, index);
+//                System.arraycopy(models, index + 1, newModels, index, newSize - index);
+//            }
+//            models = newModels;
+//        }
+        System.arraycopy(models, index + 1, models, index, modelsCount - index - 1);
+        models = Arrays.copyOf(models, modelsCount - 1);
     }
 
     /**
@@ -188,7 +205,7 @@ public class Car implements Transport {
      * @return количество
      */
     public int getModelsCount() {
-        return size;
+        return models.length;
     }
 
     //#################################################################
@@ -196,14 +213,11 @@ public class Car implements Transport {
     @Override
     public Object clone() throws CloneNotSupportedException {
         Car clonedCar = (Car) super.clone();
-        CarModel[] models = clonedCar.models;
-        CarModel[] newModels = models.clone();
-        clonedCar.models = newModels;
-        int size = models.length;
-        for (int i = 0; i < size && models[i] != null; i++) {
+        clonedCar.models = clonedCar.models.clone();
+        int size = getModelsCount();
+        for (int i = 0; i < size; i++) {
             CarModel currentModel = models[i];
-            CarModel newModel = new CarModel(currentModel.name, currentModel.price);
-            newModels[i] = newModel;
+            clonedCar.models[i] = new CarModel(currentModel.name, currentModel.price);
         }
         return clonedCar;
     }
@@ -236,9 +250,13 @@ public class Car implements Transport {
         return Objects.equals(currentModel.name, name);
     }
 
+    private boolean isInvalidPrice(double price) {
+        return Objects.equals(price, Double.NaN) || Double.compare(price, 0) <= 0;
+    }
+
     //##################################################################
 
-    private static class CarModel {
+    private class CarModel {
         String name;
         double price;
 

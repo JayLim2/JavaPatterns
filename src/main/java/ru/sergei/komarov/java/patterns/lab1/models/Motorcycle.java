@@ -12,16 +12,20 @@ public class Motorcycle implements Transport {
     private MotorcycleModel head;
     private int size;
 
-    public Motorcycle(String brand) {
+    {
         head = new MotorcycleModel();
         head.prev = head;
         head.next = head;
-        size = 0;
+        size = 0; //как в методичке :)
+    }
+
+    public Motorcycle(String brand) {
         this.brand = brand;
     }
 
     /**
      * Получить марку мотоциклов
+     *
      * @return название марки
      */
     public String getBrand() {
@@ -30,6 +34,7 @@ public class Motorcycle implements Transport {
 
     /**
      * Изменить марку мотоциклов
+     *
      * @param brand новое название марки
      */
     public void setBrand(String brand) {
@@ -43,21 +48,21 @@ public class Motorcycle implements Transport {
      * @param newName новое название
      */
     public void setModelName(String oldName, String newName) throws NoSuchModelNameException, DuplicateModelNameException {
-        if(oldName == null) {
+        if (oldName == null) {
             throw new NoSuchModelNameException(null);
         }
 
-        if(newName == null) {
+        if (newName == null) {
             throw new NullPointerException("Name must not be null.");
         }
 
-        if(Objects.equals(oldName, newName)) {
+        if (Objects.equals(oldName, newName) || contains(newName)) {
             throw new DuplicateModelNameException(newName);
         }
 
         MotorcycleModel temp = head.next;
         while (temp != head) {
-            if(Objects.equals(oldName, temp.name)) {
+            if (Objects.equals(oldName, temp.name)) {
                 temp.name = newName;
                 return;
             }
@@ -104,7 +109,7 @@ public class Motorcycle implements Transport {
      * @return цена, если есть модель с таким именем, или NaN, если такой модели нет
      */
     public double getPriceByName(String name) throws NoSuchModelNameException {
-        if(name == null) {
+        if (name == null) {
             throw new NoSuchModelNameException(null);
         }
 
@@ -125,8 +130,12 @@ public class Motorcycle implements Transport {
      * @param newPrice новая цена модели
      */
     public void setPriceByName(String name, double newPrice) throws NoSuchModelNameException {
-        if(name == null) {
+        if (name == null) {
             throw new NoSuchModelNameException(null);
+        }
+
+        if (isInvalidPrice(newPrice)) {
+            throw new ModelPriceOutOfBoundsException(Double.toString(newPrice));
         }
 
         MotorcycleModel temp = head.next;
@@ -147,7 +156,7 @@ public class Motorcycle implements Transport {
      * @param price цена модели
      */
     public void addModel(String name, double price) throws DuplicateModelNameException {
-        if(name == null) {
+        if (name == null) {
             throw new NullPointerException("Name must not be null.");
         }
 
@@ -155,7 +164,7 @@ public class Motorcycle implements Transport {
             throw new DuplicateModelNameException(name);
         }
 
-        if(Objects.equals(price, Double.NaN) || Double.compare(price, 0) <= 0) {
+        if (isInvalidPrice(price)) {
             throw new ModelPriceOutOfBoundsException(Double.toString(price));
         }
 
@@ -173,11 +182,11 @@ public class Motorcycle implements Transport {
      * @param name название модели
      */
     public void removeModel(String name) throws NoSuchModelNameException {
-        if(size == 0) {
+        if (size == 0) {
             throw new IndexOutOfBoundsException("size = 0");
         }
 
-        if(name == null) {
+        if (name == null) {
             throw new NoSuchModelNameException(null);
         }
 
@@ -185,7 +194,7 @@ public class Motorcycle implements Transport {
         while (temp != head && !Objects.equals(temp.name, name)) {
             temp = temp.next;
         }
-        if(temp != head) {
+        if (temp != head) {
             temp.prev.next = temp.next;
             temp.next.prev = temp.prev;
             temp.prev = null;
@@ -209,6 +218,10 @@ public class Motorcycle implements Transport {
             temp = temp.next;
         }
         return temp != head;
+    }
+
+    private boolean isInvalidPrice(double price) {
+        return Objects.equals(price, Double.NaN) || Double.compare(price, 0) <= 0;
     }
 
     //#################################################################
@@ -237,7 +250,7 @@ public class Motorcycle implements Transport {
 
     //##################################################################
 
-    private static class MotorcycleModel {
+    private class MotorcycleModel {
         String name = null;
         double price = Double.NaN;
         MotorcycleModel prev = null;

@@ -8,26 +8,26 @@ public class PropertiesReader {
 
     private static final String CONFIG_FILE_NAME = "config.properties";
 
-    private static Properties properties;
+    private static PropertiesReader instance = new PropertiesReader();
 
-    public static Properties getProperties() {
-        if(properties == null) {
-            try(FileInputStream in = new FileInputStream(getPropertiesFilePath())) {
-                properties = new Properties();
-                properties.load(in);
-            } catch (IOException e) {
-                System.out.println("Input/Output exception.");
-                e.printStackTrace();
-            } catch (Exception e) {
-                System.out.println("Another exception.");
-                e.printStackTrace();
-            }
+    private Properties property;
+
+    private PropertiesReader() {
+        property = new Properties();
+        try {
+            FileInputStream in = new FileInputStream(CommonConstants.RESOURCES_PATH + CONFIG_FILE_NAME);
+            property.load(in);
+            in.close();
+        } catch (IOException e) {
+            System.err.println("ОШИБКА: Файл свойств не найден.");
         }
-        return properties;
     }
 
-    private static String getPropertiesFilePath() {
-        return CommonConstants.RESOURCES_PATH + CONFIG_FILE_NAME;
+    public static synchronized PropertiesReader getInstance() {
+        return instance;
     }
 
+    public Properties getProperty() {
+        return property;
+    }
 }
