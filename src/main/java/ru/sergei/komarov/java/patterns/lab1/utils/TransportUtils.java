@@ -3,6 +3,7 @@ package ru.sergei.komarov.java.patterns.lab1.utils;
 import ru.sergei.komarov.java.patterns.lab1.factories.AutoFactory;
 import ru.sergei.komarov.java.patterns.lab1.factories.TransportFactory;
 import ru.sergei.komarov.java.patterns.lab1.models.Transport;
+import ru.sergei.komarov.java.patterns.lab2.decorator.TransportDecorator;
 
 public class TransportUtils {
 
@@ -69,6 +70,16 @@ public class TransportUtils {
             System.out.printf("\t%.2f %n", price);
         }
         System.out.println();
+    }
+
+    /**
+     * Returns synchronized Transport decorator
+     *
+     * @param transport original object
+     * @return synchronized decorator
+     */
+    public static Transport synchronizedTransport(Transport transport) {
+        return new TransportDecorator(transport);
     }
 
 }
