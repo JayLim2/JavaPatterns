@@ -3,7 +3,9 @@ package ru.sergei.komarov.java.patterns.lab1.models;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.DuplicateModelNameException;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.NoSuchModelNameException;
 
-public interface Transport extends Cloneable {
+import java.io.Serializable;
+
+public interface Transport extends Cloneable, Serializable {
 
     String getBrand();
 

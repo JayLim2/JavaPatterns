@@ -4,6 +4,7 @@ import ru.sergei.komarov.java.patterns.lab1.exceptions.DuplicateModelNameExcepti
 import ru.sergei.komarov.java.patterns.lab1.exceptions.ModelPriceOutOfBoundsException;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.NoSuchModelNameException;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 public class Motorcycle implements Transport {
@@ -250,7 +251,7 @@ public class Motorcycle implements Transport {
 
     //##################################################################
 
-    private class MotorcycleModel {
+    private class MotorcycleModel implements Serializable {
         String name = null;
         double price = Double.NaN;
         MotorcycleModel prev = null;

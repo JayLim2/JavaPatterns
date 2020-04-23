@@ -4,6 +4,7 @@ import ru.sergei.komarov.java.patterns.lab1.exceptions.DuplicateModelNameExcepti
 import ru.sergei.komarov.java.patterns.lab1.exceptions.ModelPriceOutOfBoundsException;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.NoSuchModelNameException;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -149,16 +150,6 @@ public class Car implements Transport {
             throw new ModelPriceOutOfBoundsException(Double.toString(price));
         }
 
-        //TODO optimize
-//        int modelsCount = getModelsCount();
-//        CarModel newModel = new CarModel(name, price);
-//        if (modelsCount < models.length) {
-//            models[modelsCount] = newModel;
-//        } else {
-//            CarModel[] newModels = Arrays.copyOf(models, modelsCount + 1);
-//            newModels[modelsCount] = newModel;
-//            models = newModels;
-//        }
         int modelsCount = getModelsCount();
         models = Arrays.copyOf(models, modelsCount + 1);
         models[modelsCount] = new CarModel(name, price);
@@ -180,21 +171,6 @@ public class Car implements Transport {
             throw new NoSuchModelNameException(name);
         }
 
-        //TODO optimize
-//        if (modelsCount < models.length) {
-//            System.arraycopy(models, index + 1, models, index, modelsCount - index);
-//        } else {
-//            int newSize = modelsCount - 1;
-//            CarModel[] newModels;
-//            if (index == newSize) {
-//                newModels = Arrays.copyOf(models, newSize);
-//            } else {
-//                newModels = new CarModel[newSize];
-//                System.arraycopy(models, 0, newModels, 0, index);
-//                System.arraycopy(models, index + 1, newModels, index, newSize - index);
-//            }
-//            models = newModels;
-//        }
         System.arraycopy(models, index + 1, models, index, modelsCount - index - 1);
         models = Arrays.copyOf(models, modelsCount - 1);
     }
@@ -256,7 +232,7 @@ public class Car implements Transport {
 
     //##################################################################
 
-    private class CarModel {
+    private class CarModel implements Serializable {
         String name;
         double price;
 
