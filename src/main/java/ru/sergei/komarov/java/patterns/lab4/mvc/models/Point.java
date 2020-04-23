@@ -41,6 +41,13 @@ public class Point implements Comparable {
         return Objects.hash(x, y);
     }
 
+    @Override
+    public String toString() {
+        return "Point{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 
     @Override
     public int compareTo(Object o) {

@@ -15,6 +15,7 @@ public class TransportUtils {
 
     /**
      * Set new factory
+     *
      * @param factory factory object
      */
     public static void setFactory(TransportFactory factory) {
@@ -23,7 +24,8 @@ public class TransportUtils {
 
     /**
      * Creates new instance of transport with specified params by current factory
-     * @param brand transport brand
+     *
+     * @param brand       transport brand
      * @param modelsCount count of models (if MotorCycle - will be ignored)
      * @return transport object
      */
@@ -33,6 +35,7 @@ public class TransportUtils {
 
     /**
      * Get average price of current transport models
+     *
      * @param transport transport (car, motorcycle)
      * @return average price
      */
@@ -48,6 +51,7 @@ public class TransportUtils {
 
     /**
      * Prints all models name by current transport
+     *
      * @param transport transport object
      */
     public static void printModelsNames(Transport transport) {
@@ -61,6 +65,7 @@ public class TransportUtils {
 
     /**
      * Prints all models prices by current transport
+     *
      * @param transport transport object
      */
     public static void printModelsPrices(Transport transport) {
