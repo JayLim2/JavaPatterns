@@ -14,11 +14,12 @@ public class DAOTests {
     public static void main(String[] args) throws Exception {
         TransportDAO dao = new BinaryDAO();
         TransportFactory factory = new AutoFactory();
-        Transport transport = factory.createInstance("CarBrand1", 5);
+        Transport transport = null;
         Transport recoveredTransport = null;
 
         //Binary DAO + Car
         System.out.println("Binary DAO + Car");
+        transport = factory.createInstance("CarBrand1", 5);
         dao.write(transport);
         recoveredTransport = dao.read();
         TransportUtils.printModelsNames(recoveredTransport);
