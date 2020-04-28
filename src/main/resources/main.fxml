@@ -21,10 +21,8 @@
         </LineChart>
         <TableView fx:id="valuesTable" editable="true" layoutX="26.0" layoutY="44.0" prefHeight="364.0"
                    prefWidth="217.0"/>
-        <TextField layoutX="26.0" layoutY="420.0" prefHeight="25.0" prefWidth="80.0" promptText="x"
+        <TextField layoutX="26.0" layoutY="420.0" prefHeight="25.0" prefWidth="169.0" promptText="x"
                    fx:id="xInputField"/>
-        <TextField fx:id="yInputField" layoutX="113.0" layoutY="420.0" prefHeight="25.0" prefWidth="80.0"
-                   promptText="f(x)"/>
         <Button layoutX="200.0" layoutY="420.0" mnemonicParsing="false" onAction="#onAddButtonClick" prefHeight="25.0"
                 prefWidth="43.0" text="+"/>
     </children>

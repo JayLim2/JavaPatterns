@@ -29,8 +29,6 @@ public class Controller {
     private LineChart<Double, Double> chart;
     @FXML
     private TextField xInputField;
-    @FXML
-    private TextField yInputField;
 
     private ObservableList<Point> points;
     private XYChart.Series<Double, Double> series = new XYChart.Series<>();
@@ -40,11 +38,11 @@ public class Controller {
     public void initialize() {
         //Values table
         points = FXCollections.observableArrayList(
-                new Point(1.0, 2.0),
-                new Point(1.5, 4.0),
-                new Point(2.0, 7.3),
-                new Point(3.2, 5.9),
-                new Point(7.1, 7.1)
+                new Point(1.0),
+                new Point(1.5),
+                new Point(3.2),
+                new Point(6.6),
+                new Point(11.1)
         );
         valuesTable.setItems(points);
         valuesTable.getSelectionModel().selectedItemProperty().addListener(
@@ -52,8 +50,8 @@ public class Controller {
         );
 
         ObservableList<TableColumn<Point, Double>> columns = FXCollections.observableArrayList();
-        createTableColumn(columns, X, X, COLUMN_WIDTH);
-        createTableColumn(columns, Y, Y_FIELD, COLUMN_WIDTH);
+        createTableColumn(columns, X, X, COLUMN_WIDTH, true);
+        createTableColumn(columns, Y, Y_FIELD, COLUMN_WIDTH, false);
         valuesTable.getColumns().addAll(columns);
 
         //Graphs
@@ -67,15 +65,13 @@ public class Controller {
     public void onAddButtonClick() {
         try {
             Double x = Double.parseDouble(xInputField.getText());
-            Double y = Double.parseDouble(yInputField.getText());
 
-            Point point = new Point(x, y);
+            Point point = new Point(x);
             if (points.contains(point)) {
                 showError("Точка с такими координатами уже существует.");
             } else {
                 points.add(point);
                 xInputField.clear();
-                yInputField.clear();
                 addPoint(point);
             }
         } catch (Exception e) {
@@ -113,39 +109,40 @@ public class Controller {
 
     private void createTableColumn(ObservableList<TableColumn<Point, Double>> columns,
                                    String name, String modelFieldName,
-                                   int width) {
+                                   int width,
+                                   boolean isEditable) {
 
         TableColumn<Point, Double> column = new TableColumn<>(name);
         column.setCellValueFactory(new PropertyValueFactory<>(modelFieldName));
         column.setPrefWidth(width);
         column.setSortable(false);
-        column.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-        column.setOnEditCommit(event -> {
-            //extracting data
-            int rowIndex = event.getTablePosition().getRow();
-            int colIndex = event.getTablePosition().getColumn();
-            Point newPoint = event.getRowValue();
-            Double oldValue = event.getOldValue();
-            Double newValue = event.getNewValue();
+        if (isEditable) {
+            column.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+            column.setOnEditCommit(event -> {
+                //extracting data
+                int rowIndex = event.getTablePosition().getRow();
+                int colIndex = event.getTablePosition().getColumn();
+                Point newPoint = event.getRowValue();
+                Double oldValue = event.getOldValue();
+                Double newValue = event.getNewValue();
 
-            //table observable list update
-            if (colIndex == 0) {
-                newPoint.setX(newValue);
-            } else if (colIndex == 1) {
-                newPoint.setY(newValue);
-            }
-            points.set(rowIndex, newPoint);
+                //table observable list update
+                if (colIndex == 0) {
+                    newPoint.setX(newValue);
+                }
+                points.set(rowIndex, newPoint);
 
-            //chart update
-            for (XYChart.Data<Double, Double> data : series.getData()) {
-                if (colIndex == 0 && Double.compare(data.getXValue(), oldValue) == 0) {
-                    data.setXValue(newValue);
+                //chart update
+                for (XYChart.Data<Double, Double> data : series.getData()) {
+                    if (colIndex == 0 && Double.compare(data.getXValue(), oldValue) == 0) {
+                        data.setXValue(newValue);
+                    }
+                    if (colIndex == 1 && Double.compare(data.getYValue(), oldValue) == 0) {
+                        data.setYValue(newValue);
+                    }
                 }
-                if (colIndex == 1 && Double.compare(data.getYValue(), oldValue) == 0) {
-                    data.setYValue(newValue);
-                }
-            }
-        });
+            });
+        }
         columns.add(column);
     }
 

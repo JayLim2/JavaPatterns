@@ -41,17 +41,6 @@ public class TransportDAO {
                 break;
             case BINARY:
                 try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
-//                    String[] transportTextData = Adapter.readInputStream(in);
-//                    brand = transportTextData[0];
-//                    modelsCount = Integer.parseInt(transportTextData[1]);
-//                    transport = TransportUtils.createInstance(brand, 0);
-//                    for (int i = 2; i < modelsCount; i += 2) {
-//                        try {
-//                            transport.addModel(transportTextData[i], Double.parseDouble(transportTextData[i + 1]));
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
                     transport = (Transport) in.readObject();
                 } catch (Exception e) {
                     e.printStackTrace();

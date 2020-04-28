@@ -2,13 +2,13 @@ package ru.sergei.komarov.java.patterns.lab4.mvc.models;
 
 import java.util.Objects;
 
-public class Point implements Comparable {
+public class Point implements Comparable<Point> {
     private Double x;
     private Double y;
 
-    public Point(Double x, Double y) {
+    public Point(Double x) {
         this.x = x;
-        this.y = y;
+        this.y = Math.pow(x + 1, 2);
     }
 
     public Double getX() {
@@ -17,14 +17,11 @@ public class Point implements Comparable {
 
     public void setX(Double x) {
         this.x = x;
+        this.y = Math.pow(x + 1, 2);
     }
 
     public Double getY() {
         return y;
-    }
-
-    public void setY(Double y) {
-        this.y = y;
     }
 
     @Override
@@ -50,7 +47,7 @@ public class Point implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        return Double.compare(x, ((Point) o).x);
+    public int compareTo(Point o) {
+        return Double.compare(x, o.x);
     }
 }
