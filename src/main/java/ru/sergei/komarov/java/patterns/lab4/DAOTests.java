@@ -1,37 +1,53 @@
 package ru.sergei.komarov.java.patterns.lab4;
 
 import ru.sergei.komarov.java.patterns.lab1.factories.AutoFactory;
+import ru.sergei.komarov.java.patterns.lab1.factories.MotoFactory;
 import ru.sergei.komarov.java.patterns.lab1.factories.TransportFactory;
 import ru.sergei.komarov.java.patterns.lab1.models.Transport;
 import ru.sergei.komarov.java.patterns.lab1.utils.TransportUtils;
+import ru.sergei.komarov.java.patterns.lab4.dao.BinaryDAO;
+import ru.sergei.komarov.java.patterns.lab4.dao.TextDAO;
 import ru.sergei.komarov.java.patterns.lab4.dao.TransportDAO;
-
-import static ru.sergei.komarov.java.patterns.lab4.dao.FileType.BINARY;
-import static ru.sergei.komarov.java.patterns.lab4.dao.FileType.TEXT;
 
 public class DAOTests {
 
     public static void main(String[] args) throws Exception {
-        TransportDAO dao = new TransportDAO();
-        TransportFactory factory = null;
-        Transport transport = null;
+        TransportDAO dao = new BinaryDAO();
+        TransportFactory factory = new AutoFactory();
+        Transport transport = factory.createInstance("CarBrand1", 5);
         Transport recoveredTransport = null;
 
-        //############### CARS ###################
-        factory = new AutoFactory();
-        transport = factory.createInstance("CarBrand1", 5);
-
-        dao.write(TEXT, transport);
-        recoveredTransport = dao.read(TEXT);
+        //Binary DAO + Car
+        System.out.println("Binary DAO + Car");
+        dao.write(transport);
+        recoveredTransport = dao.read();
         TransportUtils.printModelsNames(recoveredTransport);
 
-        System.out.println();
+        //Text DAO + Car
+        System.out.println("Text DAO + Car");
+        dao = new TextDAO();
+        dao.write(transport);
+        recoveredTransport = dao.read();
+        TransportUtils.printModelsNames(recoveredTransport);
 
-        transport.setBrand("SuperBrand2");
-        transport.removeModel("car2");
-        transport.addModel("car777", 100);
-        dao.write(BINARY, transport);
-        recoveredTransport = dao.read(BINARY);
+        //Binary DAO + Moto
+        System.out.println("Binary DAO + Moto");
+        factory = new MotoFactory();
+        dao = new BinaryDAO();
+        transport = factory.createInstance("MotoBrand1", 0);
+        transport.addModel("moto1", 100);
+        transport.addModel("moto2", 200);
+        transport.addModel("moto3", 300);
+        transport.addModel("moto4", 400);
+        dao.write(transport);
+        recoveredTransport = dao.read();
+        TransportUtils.printModelsNames(recoveredTransport);
+
+        //Text DAO + Moto
+        System.out.println("Text DAO + Moto");
+        dao = new TextDAO();
+        dao.write(transport);
+        recoveredTransport = dao.read();
         TransportUtils.printModelsNames(recoveredTransport);
     }
 }
