@@ -7,6 +7,12 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * Реализация интерфейса DAO
+ * Записывает в байтовый файл и читает из байтового файла.
+ * Алгоритм чтения-записи:
+ * - сериализация/десериализация объектов Java
+ */
 public class BinaryDAO implements TransportDAO {
 
     private String filename;

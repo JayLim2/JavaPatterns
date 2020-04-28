@@ -2,7 +2,12 @@ package ru.sergei.komarov.java.patterns.lab4.mvc.models;
 
 import java.util.Objects;
 
-public class Point implements Comparable<Point> {
+/**
+ * Класс модели данных
+ * <p>
+ * Определяет объект точки (содержит координаты, координата Y вычисляется автоматически)
+ */
+public class Point {
     private Double x;
     private Double y;
 
@@ -46,8 +51,4 @@ public class Point implements Comparable<Point> {
                 '}';
     }
 
-    @Override
-    public int compareTo(Point o) {
-        return Double.compare(x, o.x);
-    }
 }

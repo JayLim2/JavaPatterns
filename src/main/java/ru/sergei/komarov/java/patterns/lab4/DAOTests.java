@@ -9,6 +9,19 @@ import ru.sergei.komarov.java.patterns.lab4.dao.BinaryDAO;
 import ru.sergei.komarov.java.patterns.lab4.dao.TextDAO;
 import ru.sergei.komarov.java.patterns.lab4.dao.TransportDAO;
 
+/**
+ * DAO (Data Access Object)
+ * <p>
+ * Абстрактный интерфейс, предоставляющий доступ к базе данных или
+ * некоторому механизму ведения данных, независимо от того, в каком
+ * формате хранятся и какими способами ведутся данные.
+ * <p>
+ * Т.е., при использовании DAO мы имеем, например, 2 метода
+ * void write(Object object), Object read()
+ * Пользователю не важны внутренние алгоритмы чтения и записи,
+ * не интересно как устроен файл или база данных и как организован
+ * к ним доступ - поэтому ему предоставляет единообразный интерфейс.
+ */
 public class DAOTests {
 
     public static void main(String[] args) throws Exception {

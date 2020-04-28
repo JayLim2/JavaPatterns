@@ -8,6 +8,15 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+/**
+ * Реализация интерфейса DAO
+ * Записывает в текстовый файл и читает из текстового файла.
+ * Алгоритм чтения-записи:
+ * - на строку 1 пишется название бренда транспорта
+ * - на строку 2 количество моделей N
+ * - далее идет N строк формата: name price
+ * Считывается в том же порядке, в каком записывается.
+ */
 public class TextDAO implements TransportDAO {
 
     private String filename;
