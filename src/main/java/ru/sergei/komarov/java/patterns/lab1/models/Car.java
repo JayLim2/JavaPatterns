@@ -6,9 +6,10 @@ import ru.sergei.komarov.java.patterns.lab1.exceptions.NoSuchModelNameException;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Objects;
 
-public class Car implements Transport {
+public class Car implements Iterable<Car.CarModel>, Transport {
 
     private String brand;
     private CarModel[] models;
@@ -232,7 +233,7 @@ public class Car implements Transport {
 
     //##################################################################
 
-    private class CarModel implements Serializable {
+    static class CarModel implements Serializable {
         String name;
         double price;
 
@@ -248,5 +249,28 @@ public class Car implements Transport {
                     ", price=" + price +
                     '}';
         }
+    }
+
+    //###################### ITERATOR #######################
+
+    private class CarIterator implements Iterator<CarModel> {
+
+        private int counter = 0;
+
+        @Override
+        public boolean hasNext() {
+            return counter < getModelsCount();
+        }
+
+        @Override
+        public CarModel next() {
+            return models[counter++];
+        }
+    }
+
+    @Override
+    public Iterator<CarModel> iterator() {
+
+        return new CarIterator();
     }
 }

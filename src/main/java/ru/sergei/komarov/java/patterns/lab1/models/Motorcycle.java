@@ -5,9 +5,10 @@ import ru.sergei.komarov.java.patterns.lab1.exceptions.ModelPriceOutOfBoundsExce
 import ru.sergei.komarov.java.patterns.lab1.exceptions.NoSuchModelNameException;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.Objects;
 
-public class Motorcycle implements Transport {
+public class Motorcycle implements Transport, Iterable<Motorcycle.MotorcycleModel> {
 
     private String brand;
     private MotorcycleModel head;
@@ -251,7 +252,7 @@ public class Motorcycle implements Transport {
 
     //##################################################################
 
-    private class MotorcycleModel implements Serializable {
+    static class MotorcycleModel implements Serializable {
         String name = null;
         double price = Double.NaN;
         MotorcycleModel prev = null;
@@ -275,5 +276,28 @@ public class Motorcycle implements Transport {
                     ", price=" + price +
                     '}';
         }
+    }
+
+    //###################### ITERATOR #######################
+
+    private class MotorcycleIterator implements Iterator<MotorcycleModel> {
+
+        private MotorcycleModel temp = head.next;
+
+        @Override
+        public boolean hasNext() {
+            return temp != head;
+        }
+
+        @Override
+        public MotorcycleModel next() {
+            temp = temp.next;
+            return temp.prev;
+        }
+    }
+
+    @Override
+    public Iterator<MotorcycleModel> iterator() {
+        return new MotorcycleIterator();
     }
 }
