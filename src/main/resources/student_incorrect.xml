@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<student lastname="Комаров">
+    <subject mark="5" title="Паттерны проектирования"/>
+    <subject mark="4" title="Технологии программирования"/>
+    <subject mark="5" title="Разработка мобильного ПО"/>
+    <average>4.6</average>
+</student>
