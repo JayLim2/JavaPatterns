@@ -2,6 +2,7 @@ package ru.sergei.komarov.java.patterns.lab1.models;
 
 import ru.sergei.komarov.java.patterns.lab1.exceptions.DuplicateModelNameException;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.NoSuchModelNameException;
+import ru.sergei.komarov.java.patterns.lab3.visitor.Visitor;
 
 import java.io.Serializable;
 
@@ -28,5 +29,7 @@ public interface Transport extends Cloneable, Serializable {
     int getModelsCount();
 
     Object clone() throws CloneNotSupportedException;
+
+    void accept(Visitor visitor);
 
 }

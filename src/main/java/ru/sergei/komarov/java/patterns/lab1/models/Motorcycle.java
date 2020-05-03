@@ -3,6 +3,7 @@ package ru.sergei.komarov.java.patterns.lab1.models;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.DuplicateModelNameException;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.ModelPriceOutOfBoundsException;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.NoSuchModelNameException;
+import ru.sergei.komarov.java.patterns.lab3.visitor.Visitor;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -299,5 +300,12 @@ public class Motorcycle implements Transport, Iterable<Motorcycle.MotorcycleMode
     @Override
     public Iterator<MotorcycleModel> iterator() {
         return new MotorcycleIterator();
+    }
+
+    //###################### VISITOR #######################
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(new Motorcycle(brand)); //TOOD maybe add size?
     }
 }

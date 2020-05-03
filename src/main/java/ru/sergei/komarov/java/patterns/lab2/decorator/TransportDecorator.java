@@ -3,6 +3,7 @@ package ru.sergei.komarov.java.patterns.lab2.decorator;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.DuplicateModelNameException;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.NoSuchModelNameException;
 import ru.sergei.komarov.java.patterns.lab1.models.Transport;
+import ru.sergei.komarov.java.patterns.lab3.visitor.Visitor;
 
 public class TransportDecorator implements Transport {
     private Transport transport;
@@ -64,5 +65,10 @@ public class TransportDecorator implements Transport {
     @Override
     public synchronized Object clone() throws CloneNotSupportedException {
         return transport.clone();
+    }
+
+    @Override
+    public synchronized void accept(Visitor visitor) {
+        transport.accept(visitor);
     }
 }

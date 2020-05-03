@@ -3,8 +3,11 @@ package ru.sergei.komarov.java.patterns.lab1.models;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.DuplicateModelNameException;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.ModelPriceOutOfBoundsException;
 import ru.sergei.komarov.java.patterns.lab1.exceptions.NoSuchModelNameException;
+import ru.sergei.komarov.java.patterns.lab3.command.Command;
+import ru.sergei.komarov.java.patterns.lab3.command.CommandPrintRow;
+import ru.sergei.komarov.java.patterns.lab3.visitor.Visitor;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
@@ -272,5 +275,67 @@ public class Car implements Iterable<Car.CarModel>, Transport {
     public Iterator<CarModel> iterator() {
 
         return new CarIterator();
+    }
+
+    //###################### COMMAND #######################
+
+    private transient Command command = new CommandPrintRow();
+
+    public void setPrintCommand(Command command) {
+        this.command = command;
+    }
+
+    public void print(FileWriter fileWriter) {
+        command.printToFile(new Car(brand, getModelsCount()), fileWriter);
+    }
+
+    //###################### VISITOR #######################
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(new Car(brand, getModelsCount()));
+    }
+
+    //##################### MEMENTO ########################
+
+    private transient Memento memento = new Memento();
+
+    public void createMemento(Car car) {
+        memento.setAuto(car);
+    }
+
+    public Car setMemento() {
+        return memento.getAuto();
+    }
+
+    public static class Memento {
+
+        byte[] savedState;
+
+        void setAuto(Car car) {
+            try {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                ObjectOutputStream out = new ObjectOutputStream(byteArrayOutputStream);
+                out.writeObject(car);
+                out.flush();
+                savedState = byteArrayOutputStream.toByteArray();
+                byteArrayOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Car getAuto() {
+            try {
+                ByteArrayInputStream bis = new ByteArrayInputStream(savedState);
+                ObjectInput in = new ObjectInputStream(bis);
+                Car car = (Car) in.readObject();
+                in.close();
+                return car;
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
