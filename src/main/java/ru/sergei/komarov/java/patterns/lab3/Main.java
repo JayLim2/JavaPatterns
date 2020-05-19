@@ -32,9 +32,10 @@ public class Main {
         System.out.println("=== Command ===");
         Car car2 = new Car(CAR_BRAND, 3);
         try {
-            car2.print(new FileWriter("TransportDataCommandRow.txt", false));
+            boolean isAppendEnabled = false;
+            car2.print(new FileWriter("TransportDataCommandRow.txt", isAppendEnabled));
             car2.setPrintCommand(new CommandPrintColumn());
-            car2.print(new FileWriter("TransportDataCommandColumn.txt", false));
+            car2.print(new FileWriter("TransportDataCommandColumn.txt", isAppendEnabled));
         } catch (IOException e) {
             e.printStackTrace();
         }

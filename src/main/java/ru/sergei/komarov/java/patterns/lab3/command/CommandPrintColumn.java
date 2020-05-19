@@ -12,16 +12,16 @@ public class CommandPrintColumn implements Command {
     @Override
     public void printToFile(Car car, FileWriter writer) {
         try {
-            writer.append("Марка: ");
+            writer.append("Марка: \n");
             writer.append(car.getBrand());
             writer.append(";\n");
-            writer.append("Модели: ");
-            writer.append("\n");
+            writer.append("Модели: \n");
             List<String> models = Arrays.asList(car.getModelsNames());
             models.forEach(modelName -> {
                 try {
                     writer.append(modelName);
-                    writer.append(models.indexOf(modelName) == models.size() - 1 ? "." : ",\n");
+                    writer.append(models.indexOf(modelName) == models.size() - 1 ? "." : ", ");
+                    writer.append("\n");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
