@@ -60,7 +60,7 @@ public class Main {
         System.out.println("=== Visitor ===");
         Car car4 = new Car("ВАЗ", 3);
         car4.accept(new PrintVisitor());
-        System.out.println();
+        System.out.println("\n");
         Motorcycle motorcycle = new Motorcycle("Kawasaki");
         motorcycle.addModel("moto1", 100);
         motorcycle.addModel("moto2", 200);

@@ -293,7 +293,8 @@ public class Car implements Iterable<Car.CarModel>, Transport {
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visit(new Car(brand, getModelsCount()));
+        //visitor.visit(new Car(brand, getModelsCount()));
+        visitor.visit(this);
     }
 
     //##################### MEMENTO ########################

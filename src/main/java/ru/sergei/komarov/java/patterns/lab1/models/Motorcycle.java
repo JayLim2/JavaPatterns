@@ -306,6 +306,7 @@ public class Motorcycle implements Transport, Iterable<Motorcycle.MotorcycleMode
 
     @Override
     public void accept(Visitor visitor) {
-        visitor.visit(new Motorcycle(brand)); //TOOD maybe add size?
+        //visitor.visit(new Motorcycle(brand));
+        visitor.visit(this);
     }
 }

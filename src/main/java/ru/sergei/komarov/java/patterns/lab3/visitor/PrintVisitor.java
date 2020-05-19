@@ -9,9 +9,8 @@ import java.util.List;
 public class PrintVisitor implements Visitor {
 
     public void visit(Car car) {
-        System.out.print("Марка: ");
-        System.out.print((car.getBrand()));
-        System.out.print(("; Модели: "));
+        System.out.print("Марка: " + car.getBrand() + "; ");
+        System.out.print("Модели: ");
         List<String> models = Arrays.asList(car.getModelsNames());
         models.forEach(modelName -> {
             System.out.print(modelName);
@@ -20,9 +19,8 @@ public class PrintVisitor implements Visitor {
     }
 
     public void visit(Motorcycle motorcycle) {
-        System.out.print("Марка: ");
-        System.out.println((motorcycle.getBrand()) + ";");
-        System.out.println(("Модели: "));
+        System.out.print("Марка: \n" + motorcycle.getBrand() + "\n");
+        System.out.println("Модели: ");
         List<String> models = Arrays.asList(motorcycle.getModelsNames());
         models.forEach(modelName -> {
             System.out.print(modelName);
