@@ -34,14 +34,17 @@ public class SAXAnalyzer implements Analyzer {
             if (actualAverage != expectedAverage) {
                 try {
                     Path inputPath = Paths.get(filePath);
-                    String input = new String(Files.readAllBytes(inputPath));
-                    input = input.replaceFirst(String.valueOf(actualAverage), String.valueOf(expectedAverage));
+                    String input = new String(Files.readAllBytes(inputPath))
+                            .replaceFirst(
+                                    Double.toString(actualAverage),
+                                    Double.toString(expectedAverage)
+                            );
                     InputSource src = new InputSource(new StringReader(input));
-                    Transformer tr = TransformerFactory.newInstance().newTransformer();
+                    Transformer transformer = TransformerFactory.newInstance().newTransformer();
                     SAXSource source = new SAXSource(saxParser.getXMLReader(), src);
-                    FileOutputStream fos = new FileOutputStream(newFilePath);
-                    StreamResult result = new StreamResult(fos);
-                    tr.transform(source, result);
+                    FileOutputStream out = new FileOutputStream(newFilePath);
+                    StreamResult result = new StreamResult(out);
+                    transformer.transform(source, result);
                 } catch (IOException | TransformerException | SAXException e) {
                     e.printStackTrace();
                 }
@@ -57,8 +60,8 @@ public class SAXAnalyzer implements Analyzer {
         boolean isAverageTagStarted = false;
 
         @Override
-        public void startElement(String uri, String localName, String qName, Attributes attributes) {
-            switch (qName) {
+        public void startElement(String uri, String localName, String nodeName, Attributes attributes) {
+            switch (nodeName) {
                 case "subject":
                     ranksSum += Double.parseDouble(attributes.getValue("mark"));
                     ranksCount++;
@@ -70,9 +73,9 @@ public class SAXAnalyzer implements Analyzer {
         }
 
         @Override
-        public void characters(char[] ch, int start, int length) {
+        public void characters(char[] chars, int start, int length) {
             if (isAverageTagStarted) {
-                actualAverage = Double.parseDouble(new String(ch, start, length));
+                actualAverage = Double.parseDouble(new String(chars, start, length));
                 PrintUtils.printAverageValidation(actualAverage, ranksSum, ranksCount);
                 isAverageTagStarted = false;
             }

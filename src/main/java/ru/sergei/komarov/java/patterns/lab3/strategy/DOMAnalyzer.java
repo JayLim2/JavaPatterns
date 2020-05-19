@@ -3,19 +3,15 @@ package ru.sergei.komarov.java.patterns.lab3.strategy;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import ru.sergei.komarov.java.patterns.lab1.utils.PrintUtils;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class DOMAnalyzer implements Analyzer {
 
@@ -45,14 +41,14 @@ public class DOMAnalyzer implements Analyzer {
             PrintUtils.printAverageValidation(actualAverage, ranksSum, ranksCount);
             if (actualAverage != expectedAverage) {
                 Node average = document.getElementsByTagName("average").item(0).getFirstChild();
-                average.setNodeValue(String.valueOf(expectedAverage));
-                Transformer tr = TransformerFactory.newInstance().newTransformer();
+                average.setNodeValue(Double.toString(expectedAverage));
+                Transformer transformer = TransformerFactory.newInstance().newTransformer();
                 DOMSource source = new DOMSource(document);
-                FileOutputStream fos = new FileOutputStream(newFilePath);
-                StreamResult result = new StreamResult(fos);
-                tr.transform(source, result);
+                FileOutputStream out = new FileOutputStream(newFilePath);
+                StreamResult result = new StreamResult(out);
+                transformer.transform(source, result);
             }
-        } catch (IOException | ParserConfigurationException | SAXException | TransformerException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
