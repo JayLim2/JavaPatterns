@@ -44,7 +44,7 @@ public class Main {
         /* Memento Test */
         System.out.println("=== Memento ===");
         Car car3 = new Car(CAR_BRAND, 3);
-        car3.createMemento(car3);
+        car3.createMemento();
         TransportUtils.printModelsNames(car3);
         try {
             car3.setModelName("car1", "CAR_1");

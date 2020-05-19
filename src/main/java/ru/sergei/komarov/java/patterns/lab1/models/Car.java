@@ -300,8 +300,8 @@ public class Car implements Iterable<Car.CarModel>, Transport {
 
     private transient Memento memento = new Memento();
 
-    public void createMemento(Car car) {
-        memento.setAuto(car);
+    public void createMemento() {
+        memento.setAuto(this);
     }
 
     public Car setMemento() {
@@ -328,7 +328,7 @@ public class Car implements Iterable<Car.CarModel>, Transport {
         Car getAuto() {
             try {
                 ByteArrayInputStream bis = new ByteArrayInputStream(savedState);
-                ObjectInput in = new ObjectInputStream(bis);
+                ObjectInputStream in = new ObjectInputStream(bis);
                 Car car = (Car) in.readObject();
                 in.close();
                 return car;
