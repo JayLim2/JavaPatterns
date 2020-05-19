@@ -21,12 +21,15 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         /* Chain Of Responsibility Test */
-        Transport car = TransportUtils.createInstance(CAR_BRAND, 3);
+        System.out.println("=== Chain of responsibility ===");
+        Transport car = TransportUtils.createInstance(CAR_BRAND, 4);
         ChainOfResponsibility chain = new ChainPrintRow();
-        chain.linkWith(new ChainPrintColumn());
-        chain.writeTransportInfoToFile(car);
+        chain.attachNext(new ChainPrintColumn());
+        chain.writeTransportToFile(car);
+        System.out.println();
 
         /* Command Test */
+        System.out.println("=== Command ===");
         Car car2 = new Car(CAR_BRAND, 3);
         try {
             car2.print(new FileWriter("TransportDataCommandRow.txt", false));
@@ -35,8 +38,10 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println();
 
         /* Memento Test */
+        System.out.println("=== Memento ===");
         Car car3 = new Car(CAR_BRAND, 3);
         car3.createMemento(car3);
         TransportUtils.printModelsNames(car3);
@@ -48,8 +53,10 @@ public class Main {
         TransportUtils.printModelsNames(car3);
         car3 = car3.setMemento();
         TransportUtils.printModelsNames(car3);
+        System.out.println();
 
         /* Visitor Test */
+        System.out.println("=== Visitor ===");
         Car car4 = new Car("ВАЗ", 3);
         car4.accept(new PrintVisitor());
         System.out.println();
