@@ -3,7 +3,7 @@ package ru.sergei.komarov.java.patterns.lab3.strategy;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import ru.sergei.komarov.java.patterns.lab1.utils.PrintUtils;
+import ru.sergei.komarov.java.patterns.lab1.utils.Validators;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -38,16 +38,16 @@ public class DOMAnalyzer implements Analyzer {
                         break;
                 }
             }
-            PrintUtils.printAverageValidation(actualAverage, ranksSum, ranksCount);
-            if (actualAverage != expectedAverage) {
+            expectedAverage = Validators.runAverageValidation(actualAverage, ranksSum, ranksCount);
+            if (Double.compare(actualAverage, expectedAverage) != 0) {
                 Node average = document.getElementsByTagName("average").item(0).getFirstChild();
                 average.setNodeValue(Double.toString(expectedAverage));
-                Transformer transformer = TransformerFactory.newInstance().newTransformer();
-                DOMSource source = new DOMSource(document);
-                FileOutputStream out = new FileOutputStream(newFilePath);
-                StreamResult result = new StreamResult(out);
-                transformer.transform(source, result);
             }
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            DOMSource source = new DOMSource(document);
+            FileOutputStream out = new FileOutputStream(newFilePath);
+            StreamResult result = new StreamResult(out);
+            transformer.transform(source, result);
         } catch (Exception e) {
             e.printStackTrace();
         }

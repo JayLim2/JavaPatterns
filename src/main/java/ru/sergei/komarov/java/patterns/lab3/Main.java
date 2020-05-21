@@ -22,7 +22,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         /* Chain Of Responsibility Test */
         System.out.println("=== Chain of responsibility ===");
-        Transport car = TransportUtils.createInstance(CAR_BRAND, 4);
+        Transport car = TransportUtils.createInstance(CAR_BRAND, 3);
         ChainOfResponsibility chain = new ChainPrintRow();
         chain.attachNext(new ChainPrintColumn());
         chain.writeTransportToFile(car);

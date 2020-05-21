@@ -4,7 +4,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import ru.sergei.komarov.java.patterns.lab1.utils.PrintUtils;
+import ru.sergei.komarov.java.patterns.lab1.utils.Validators;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -31,7 +31,7 @@ public class SAXAnalyzer implements Analyzer {
             SAXParser saxParser = factory.newSAXParser();
             DefaultHandler handler = new CustomHandler();
             saxParser.parse(filePath, handler);
-            if (actualAverage != expectedAverage) {
+            if (Double.compare(actualAverage, expectedAverage) != 0) {
                 try {
                     Path inputPath = Paths.get(filePath);
                     String input = new String(Files.readAllBytes(inputPath))
@@ -76,7 +76,7 @@ public class SAXAnalyzer implements Analyzer {
         public void characters(char[] chars, int start, int length) {
             if (isAverageTagStarted) {
                 actualAverage = Double.parseDouble(new String(chars, start, length));
-                PrintUtils.printAverageValidation(actualAverage, ranksSum, ranksCount);
+                expectedAverage = Validators.runAverageValidation(actualAverage, ranksSum, ranksCount);
                 isAverageTagStarted = false;
             }
         }
