@@ -43,4 +43,10 @@ public class RectangleTemplate implements ShapeTemplate {
             throw new IllegalArgumentException("Allowed only positive values of speed.");
         }
     }
+
+    @Override
+    public StartingPointType getStartingPointType() {
+        return StartingPointType.TOP_LEFT;
+    }
+
 }

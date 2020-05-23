@@ -6,6 +6,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import ru.sergei.komarov.java.patterns.lab3.template.method.templates.ShapeTemplate;
+import ru.sergei.komarov.java.patterns.lab3.template.method.templates.StartingPointType;
 
 public class MovementHandler implements EventHandler<ActionEvent> {
 
@@ -21,10 +22,12 @@ public class MovementHandler implements EventHandler<ActionEvent> {
     //Main components
     private Shape object;
     private ShapeTemplate template;
+    private StartingPointType startingPointType;
 
     public MovementHandler(Pane canvas, Shape object, ShapeTemplate template) {
         this.object = object;
         this.template = template;
+        this.startingPointType = template.getStartingPointType();
 
         Bounds bounds = canvas.getBoundsInLocal();
         MIN_X = bounds.getMinX();
@@ -35,6 +38,9 @@ public class MovementHandler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent t) {
+        //System.out.println(object.getLayoutX());
+        //if(true) return;
+
         double layoutX = object.getLayoutX() + DX;
         double layoutY = object.getLayoutY() + DY;
 
@@ -46,12 +52,16 @@ public class MovementHandler implements EventHandler<ActionEvent> {
         double height = template.getHeight(object);
 
         //Если объект достигает левого или правого края - инвертим знак у DX
-        if (layoutX <= (MIN_X + width) || layoutX >= (MAX_X - width)) {
+        double left = MIN_X + (startingPointType == StartingPointType.TOP_LEFT ? 0 : width);
+        double right = MAX_X - width;
+        if (layoutX <= left || layoutX >= right) {
             DX = -DX;
         }
 
         //Если объект достигает нижнего или верхнего края - инвертим знак у DY
-        if (layoutY <= (MIN_Y + height) || layoutY >= (MAX_Y - height)) {
+        double top = MIN_Y + (startingPointType == StartingPointType.TOP_LEFT ? 0 : height);
+        double bottom = MAX_Y - height;
+        if (layoutY <= top || layoutY >= bottom) {
             DY = -DY;
         }
     }

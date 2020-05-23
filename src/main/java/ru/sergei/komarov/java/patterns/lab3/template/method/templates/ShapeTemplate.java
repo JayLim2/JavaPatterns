@@ -12,4 +12,6 @@ public interface ShapeTemplate {
 
     void setSpeedInMillis(double ms);
 
+    StartingPointType getStartingPointType();
+
 }
