@@ -31,13 +31,12 @@ public class JumpersController {
 
         Random random = new Random();
         int type = random.nextInt(2);
-//        type = 1;
         switch (type) {
             case 0:
                 double radius = 10.0;
                 Circle circle = new Circle(radius, Color.CADETBLUE);
                 ShapeTemplate circleTemplate = CircleTemplate.getInstance();
-                circle.relocate(canvasWidth - radius / 2, canvasHeight - radius / 2);
+                circle.relocate(canvasWidth - 2 * radius, canvasHeight - 2 * radius);
                 canvas.getChildren().add(circle);
                 startTimeline(circle, circleTemplate);
                 break;

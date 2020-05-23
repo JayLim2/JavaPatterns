@@ -9,17 +9,28 @@ import ru.sergei.komarov.java.patterns.lab3.template.method.templates.ShapeTempl
 
 public class MovementHandler implements EventHandler<ActionEvent> {
 
-    private double DX = 7; //Step on x or velocity
-    private double DY = 3; //Step on y
+    private double DX = -7; //Step on x or velocity
+    private double DY = -3; //Step on y
 
-    private Pane canvas;
+    //freezed bounds
+    private double MIN_X;
+    private double MAX_X;
+    private double MIN_Y;
+    private double MAX_Y;
+
+    //Main components
     private Shape object;
     private ShapeTemplate template;
 
     public MovementHandler(Pane canvas, Shape object, ShapeTemplate template) {
-        this.canvas = canvas;
         this.object = object;
         this.template = template;
+
+        Bounds bounds = canvas.getBoundsInLocal();
+        MIN_X = bounds.getMinX();
+        MAX_X = bounds.getMaxX();
+        MIN_Y = bounds.getMinY();
+        MAX_Y = bounds.getMaxY();
     }
 
     @Override
@@ -31,22 +42,16 @@ public class MovementHandler implements EventHandler<ActionEvent> {
         object.setLayoutX(layoutX);
         object.setLayoutY(layoutY);
 
-        Bounds bounds = canvas.getBoundsInLocal();
-
         double width = template.getWidth(object);
         double height = template.getHeight(object);
 
-        //If the ball reaches the left or right border make the step negative
-        double minX = bounds.getMinX();
-        double maxX = bounds.getMaxX();
-        if (layoutX <= (minX + width) || layoutX >= (maxX - width)) {
+        //Если объект достигает левого или правого края - инвертим знак у DX
+        if (layoutX <= (MIN_X + width) || layoutX >= (MAX_X - width)) {
             DX = -DX;
         }
 
-        //If the ball reaches the bottom or top border make the step negative
-        double minY = bounds.getMinY();
-        double maxY = bounds.getMaxY();
-        if (layoutY <= (minY + height) || layoutY >= (maxY - height)) {
+        //Если объект достигает нижнего или верхнего края - инвертим знак у DY
+        if (layoutY <= (MIN_Y + height) || layoutY >= (MAX_Y - height)) {
             DY = -DY;
         }
     }

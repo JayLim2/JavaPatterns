@@ -9,7 +9,7 @@ public class RectangleTemplate implements ShapeTemplate {
     private double speedInMillis;
 
     private RectangleTemplate() {
-        speedInMillis = 30;
+        speedInMillis = 35;
     }
 
     public synchronized static ShapeTemplate getInstance() {
@@ -19,7 +19,7 @@ public class RectangleTemplate implements ShapeTemplate {
     @Override
     public double getWidth(Shape shape) {
         if (shape instanceof Rectangle) {
-            return ((Rectangle) shape).getWidth();
+            return ((Rectangle) shape).getWidth() / 2;
         }
         throw new IllegalArgumentException("This class receives only Rectangles.");
     }
@@ -27,7 +27,7 @@ public class RectangleTemplate implements ShapeTemplate {
     @Override
     public double getHeight(Shape shape) {
         if (shape instanceof Rectangle) {
-            return ((Rectangle) shape).getHeight();
+            return ((Rectangle) shape).getHeight() / 2;
         }
         throw new IllegalArgumentException("This class receives only Rectangles.");
     }
