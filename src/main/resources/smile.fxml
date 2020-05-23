@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.*?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.sergei.komarov.java.patterns.lab3.observer.controllers.SmileController">
+    <children>
+        <Circle fill="DODGERBLUE" layoutX="300.0" layoutY="192.0" radius="158.0" stroke="BLACK" strokeType="INSIDE"/>
+        <Circle fx:id="leftEye" fill="WHITE" layoutX="227.0" layoutY="127.0" onMouseClicked="#onEyeClicked"
+                radius="73.0" stroke="BLACK" strokeType="INSIDE"/>
+        <Circle fx:id="rightEye" fill="WHITE" layoutX="385.0" layoutY="127.0" onMouseClicked="#onEyeClicked"
+                radius="73.0" stroke="BLACK" strokeType="INSIDE"/>
+        <Line fx:id="straightMouth" endX="100.0" layoutX="300.0" layoutY="274.0" onMouseClicked="#onMouthClicked"
+              startX="-100.0" strokeWidth="5.0"/>
+        <QuadCurve fx:id="smiledMouth" controlX="47.0" controlY="64.0" endX="150.5" endY="0.5" fill="DODGERBLUE"
+                   layoutX="250.0" layoutY="257.0" onMouseClicked="#onMouthClicked" startX="-50.0" stroke="BLACK"
+                   strokeType="INSIDE" strokeWidth="5.0" visible="false"/>
+        <Rectangle fx:id="nose" arcHeight="5.0" arcWidth="5.0" fill="#1fffd1" height="78.0" layoutX="299.0"
+                   layoutY="169.0" onMouseClicked="#onNoseClicked" stroke="BLACK" strokeType="INSIDE" width="17.0"/>
+        <Circle fx:id="leftEyePupil" layoutX="284.0" layoutY="136.0" onMouseClicked="#onEyeClicked" radius="16.0"
+                stroke="BLACK" strokeType="INSIDE"/>
+        <Circle fx:id="rightEyePupil" layoutX="442.0" layoutY="136.0" onMouseClicked="#onEyeClicked" radius="16.0"
+                stroke="BLACK" strokeType="INSIDE"/>
+        <Line fx:id="closedLeftEye" endX="118.0" endY="33.0" layoutX="173.0" layoutY="120.0"
+              onMouseClicked="#onEyeClicked" startX="-11.0" startY="-3.0" strokeWidth="10.0" visible="false"/>
+        <Line fx:id="closedRightEye" endX="121.0" endY="-37.0" layoutX="329.0" layoutY="155.0"
+              onMouseClicked="#onEyeClicked" startX="-11.0" startY="-3.0" strokeWidth="10.0" visible="false"/>
+    </children>
+</AnchorPane>
