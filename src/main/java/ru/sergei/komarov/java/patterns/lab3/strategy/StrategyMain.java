@@ -1,6 +1,6 @@
 package ru.sergei.komarov.java.patterns.lab3.strategy;
 
-public class Main {
+public class StrategyMain {
 
 //    private static final String SOURCE_CORRECT = "src/main/resources/student_correct.xml";
 //    private static final String SOURCE_INCORRECT = "src/main/resources/student_incorrect.xml";

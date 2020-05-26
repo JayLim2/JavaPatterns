@@ -2,6 +2,7 @@ package ru.sergei.komarov.java.patterns.lab3.template.method.controllers;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -17,8 +18,12 @@ import ru.sergei.komarov.java.patterns.lab3.template.method.templates.ShapeTempl
 import ru.sergei.komarov.java.patterns.lab3.template.method.templates.StarTemplate;
 
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class JumpersController {
+
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(3);
 
     @FXML
     private AnchorPane canvas;
@@ -73,14 +78,18 @@ public class JumpersController {
     }
 
     private void startTimeline(Shape shape, ShapeTemplate template) {
-        Timeline timeline = new Timeline(
-                new KeyFrame(
-                        Duration.millis(template.getSpeedInMillis()),
-                        new MovementHandler(canvas, shape, template)
-                )
+        Platform.runLater(
+                () -> {
+                    Timeline timeline = new Timeline(
+                            new KeyFrame(
+                                    Duration.millis(template.getSpeedInMillis()),
+                                    new MovementHandler(canvas, shape, template)
+                            )
+                    );
+                    timeline.setCycleCount(Timeline.INDEFINITE);
+                    timeline.play();
+                }
         );
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
     }
 
     private Polygon getStar(double scale, double translateX, double translateY) {
